@@ -282,3 +282,20 @@ def test_run_defaults_to_a_private_window_and_serves_browsers_on_request(monkeyp
     monkeypatch.delenv("WAYLAND_DISPLAY", raising=False)
     monkeypatch.setattr("sys.platform", "linux")
     assert _run_target(None, None, None) == (False, "0.0.0.0", 8000)        # no screen: serve browsers
+
+
+def test_app_without_a_saved_layout_gets_a_widget_for_everything(tmp_path):
+    e = Engine("T", app_dir=tmp_path)
+    e.channel("io.valve", "bool", writable=True)
+    e.channel("io.fan", writable=True, min=0, max=100)
+    e.channel("rtd.1")
+    e.channel("mode", "enum", options=["A", "B"], writable=True)
+    e.command("io.purge")(lambda: None)
+    Motor(e, "m1", "Drive")
+    with TestClient(e.app) as client:
+        layout = client.get("/api/layouts/default").json()
+    widgets = layout["tabs"][0]["widgets"]
+    by_bind = {w.get("bind") or w.get("command") or w.get("device"): w["type"] for w in widgets}
+    assert by_bind == {"io.valve": "toggle", "io.fan": "slider", "rtd.1": "stat", "mode": "mode",
+                       "io.purge": "button", "m1": "motor"}          # device channels are not repeated
+    assert all(w["x"] + w["w"] <= layout["cols"] for w in widgets)   # nothing hangs off the grid

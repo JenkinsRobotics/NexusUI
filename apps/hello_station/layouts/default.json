@@ -56,6 +56,17 @@
      "type": "button",
      "command": "demo.all_off",
      "size": "s"
+    },
+    {
+     "i": "w6",
+     "x": 17,
+     "y": 0,
+     "w": 4,
+     "h": 10,
+     "type": "hello_station_readout",
+     "bind": "demo.temp",
+     "title": "Custom widget",
+     "size": "s"
     }
    ]
   }
