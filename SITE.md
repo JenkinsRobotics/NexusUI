@@ -30,7 +30,8 @@ GitHub → Settings → Pages → Source: **Deploy from a branch** → Branch:
   the wording and the measurements.
 - The Python sample on the page is a complete program and was run as shown.
   Run it again if you change it.
-- The screenshots in `assets/` were taken from the demo apps
-  (`apps/widget_gallery`).
+- The screenshots in `assets/` are copies of `docs/images/` on `master`, taken
+  from the demo apps (`apps/robot_fleet` and `apps/widget_gallery`) at 1600 px
+  wide. Retake them when a demo's layout changes.
 - If the repository is renamed or moved, update the GitHub links and the two
   `git clone` commands in `index.html`.

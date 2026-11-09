@@ -7,7 +7,7 @@
 <meta property="og:title" content="NexusUI — monitor and control your hardware">
 <meta property="og:description" content="A visual way to monitor and control hardware and IoT I/O from Python. Live control panels in their own window or in any browser.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="assets/widget-gallery.png">
+<meta property="og:image" content="assets/robot-fleet-rover.png">
 <meta name="theme-color" content="#0d1117">
 <title>NexusUI — monitor and control your hardware</title>
 <link rel="icon" type="image/png" href="https://jenkinsrobotics.com/wp-content/uploads/2021/04/cropped-cropped-Jenkins-logo-transparent-1.png">
@@ -263,6 +263,7 @@
   .shot { margin: 30px 0 0; }
   .shot img { display: block; width: 100%; height: auto; border: 1px solid var(--border2);
               border-radius: var(--radius); box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45); }
+  .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 0 18px; }
   .shot figcaption { margin-top: 10px; color: var(--muted); font-family: var(--mono); font-size: 12.5px; }
   .term.code { margin-top: 30px; text-align: left; max-width: 860px; }
   .term.code pre { white-space: pre; overflow-x: auto; }
@@ -284,7 +285,7 @@
       <a href="#architecture">How it works</a>
       <a href="#install">Install</a>
       <a href="#roadmap">Roadmap</a>
-      <a class="btn" href="https://github.com/jonjenkins31/VisualReactpy" target="_blank" rel="noopener">GitHub →</a>
+      <a class="btn" href="https://github.com/jonjenkins31/NexusUI" target="_blank" rel="noopener">GitHub →</a>
     </div>
   </div>
 </nav>
@@ -319,7 +320,7 @@
 
     <div class="hero-cta">
       <a class="btn primary" href="#install">Get started →</a>
-      <a class="btn" href="https://github.com/jonjenkins31/VisualReactpy" target="_blank" rel="noopener">
+      <a class="btn" href="https://github.com/jonjenkins31/NexusUI" target="_blank" rel="noopener">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.4-1.3-5.4-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.1 0 4.6-2.8 5.5-5.5 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/>
         </svg>
@@ -333,11 +334,11 @@
         <span class="ttl">install — bash</span>
         <span style="width:48px"></span>
       </div>
-<pre><span class="cm"># Clone, install, open the widget gallery in its own window.</span>
-<span class="pmt">$</span> git clone https://github.com/jonjenkins31/VisualReactpy.git
-<span class="pmt">$</span> cd VisualReactpy
+<pre><span class="cm"># Clone, install, open the robot fleet demo in its own window.</span>
+<span class="pmt">$</span> git clone https://github.com/jonjenkins31/NexusUI.git
+<span class="pmt">$</span> cd NexusUI
 <span class="pmt">$</span> pip install -e .
-<span class="pmt">$</span> python apps/widget_gallery/app.py<span class="blink">▎</span></pre>
+<span class="pmt">$</span> python apps/robot_fleet/app.py<span class="blink">▎</span></pre>
     </div>
   </div>
 </header>
@@ -347,13 +348,36 @@
   <div class="wrap">
     <div class="eyebrow">// what it is</div>
     <h2 class="h">A visual way to monitor and control I/O.</h2>
-    <p class="sub">A Python library for live control panels: the screen you put in front of a test rig, a bench instrument or an IoT device. Think of what Grafana does for metrics, with controls as well as charts, for your own hardware.</p>
+    <p class="sub">A Python library for live control panels: the screen you put in front of a robot, a test rig, a bench instrument or an IoT device. Think of what Grafana does for metrics, with controls as well as charts, for your own hardware.</p>
 
     <figure class="shot">
-      <img src="assets/widget-gallery.png" width="1600" height="1298" loading="lazy"
-           alt="The NexusUI widget gallery: readouts, gauges, a switch, a slider, a selector, buttons, a trend chart, a panel and the event log">
-      <figcaption>apps/widget_gallery — every general widget, driven by a simulated bench supply</figcaption>
+      <img src="assets/robot-fleet-rover.png" width="1600" height="1307" loading="lazy"
+           alt="The Robot Fleet demo, survey rover tab: a track map with the survey route, mission steps, a lidar scan, drive mode, a joystick, command buttons, motor, battery and lidar cards and a trend">
+      <figcaption>apps/robot_fleet — a survey rover: track map, mission steps, lidar scan, joystick and device cards</figcaption>
     </figure>
+
+    <div class="shots">
+      <figure class="shot">
+        <img src="assets/robot-fleet-drone.png" width="1600" height="1272" loading="lazy"
+             alt="The Robot Fleet demo, drone tab: attitude indicator, altitude bar, speed and wind gauges, a gimbal camera tracking a target, four rotor cards, battery, telemetry link and flight controls">
+        <figcaption>the same app, drone tab — attitude, altitude, gimbal camera, rotors</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="assets/robot-fleet-water.png" width="1600" height="1272" loading="lazy"
+             alt="The Robot Fleet demo, sub and boat tab: a live tether diagram, a depth bar, forward sonar, dive phases, a two-vehicle track map and pump, sonar, pinger, winch and power cards">
+        <figcaption>sub + boat tab — live tether diagram, depth, sonar, dive phases</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="assets/widget-devices.png" width="1600" height="1113" loading="lazy"
+             alt="The widget gallery, Devices tab: motor, servo, pump, battery, beacon, radio link, lidar, heater, power meter and camera cards">
+        <figcaption>apps/widget_gallery — the ten device cards</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="assets/widget-motion.png" width="1600" height="858" loading="lazy"
+             alt="The widget gallery, Motion tab: track map, attitude indicator, bar gauge, range scan, mission steps, joystick and slider">
+        <figcaption>apps/widget_gallery — map, attitude, scan, bar, steps, joystick</figcaption>
+      </figure>
+    </div>
 
     <p class="sub" style="margin-top: 30px;">
       A complete app is a dozen lines. This one opens with a switch for the heater, a slider for the
@@ -386,7 +410,7 @@ eng.run()                        <span class="cm"># opens its own window</span><
     <p class="sub" style="margin-top: 30px;">
       It is not a general-purpose toolkit. It builds one kind of application, live panels for hardware,
       and it draws them with a web view, which costs more memory and CPU than Tkinter or Qt.
-      The <a href="https://github.com/jonjenkins31/VisualReactpy#compared-with-tkinter-qt-and-rust" target="_blank" rel="noopener">README has the measurements</a>
+      The <a href="https://github.com/jonjenkins31/NexusUI#compared-with-tkinter-qt-and-rust" target="_blank" rel="noopener">README has the measurements</a>
       against Tkinter, Qt and Rust.
     </p>
   </div>
@@ -405,7 +429,7 @@ eng.run()                        <span class="cm"># opens its own window</span><
       <div class="feature">
         <h3>No UI code</h3>
         <p>Declare channels and devices in Python, then place ready-made widgets by drag and drop. Layouts are saved as JSON next to your app.</p>
-        <span class="pill">21 widgets</span>
+        <span class="pill">28 widgets</span>
       </div>
 
       <div class="feature">
@@ -433,9 +457,21 @@ eng.run()                        <span class="cm"># opens its own window</span><
       </div>
 
       <div class="feature">
-        <h3>Device cards and live diagrams</h3>
-        <p>Nine premade device cards, one line of Python each, bring their own channels, commands, safety checks and simulator. Process diagrams are described in Python and drawn live.</p>
+        <h3>Device cards</h3>
+        <p>Ten premade devices, one line of Python each: motor, servo, pump, heater, battery, power meter, lidar or sonar, beacon, radio link and camera. Each brings its own channels, commands, safety checks and a simulator to develop against.</p>
         <span class="pill">devices</span>
+      </div>
+
+      <div class="feature">
+        <h3>Widgets for things that move</h3>
+        <p>A track map with trails and a route, an attitude indicator, a lidar or sonar scan, a depth or altitude bar, mission steps and a joystick.</p>
+        <span class="pill">robots</span>
+      </div>
+
+      <div class="feature">
+        <h3>Live diagrams</h3>
+        <p>Describe a system in Python and it is drawn live: switches you can click, units that glow when running, links that animate while power, data or liquid flows.</p>
+        <span class="pill">diagrams</span>
       </div>
     </div>
 
@@ -488,8 +524,8 @@ eng.run()                        <span class="cm"># opens its own window</span><
         <span class="n">1</span>
         <h3>Clone</h3>
         <p>NexusUI is not on PyPI yet, so install it from a clone.</p>
-        <pre><span class="pmt">$</span> git clone https://github.com/jonjenkins31/VisualReactpy.git
-<span class="pmt">$</span> cd VisualReactpy</pre>
+        <pre><span class="pmt">$</span> git clone https://github.com/jonjenkins31/NexusUI.git
+<span class="pmt">$</span> cd NexusUI</pre>
       </div>
 
       <div class="step">
@@ -505,7 +541,8 @@ eng.run()                        <span class="cm"># opens its own window</span><
         <span class="n">3</span>
         <h3>Run a demo</h3>
         <p>It opens in its own window. Add <code class="inline">--browser</code> to serve it at <code class="inline">http://localhost:8000</code> instead.</p>
-        <pre><span class="pmt">$</span> python apps/widget_gallery/app.py</pre>
+        <pre><span class="pmt">$</span> python apps/robot_fleet/app.py      <span class="cm"># three robots, three tabs</span>
+<span class="pmt">$</span> python apps/widget_gallery/app.py   <span class="cm"># every widget, one by one</span></pre>
       </div>
     </div>
   </div>
@@ -527,7 +564,7 @@ eng.run()                        <span class="cm"># opens its own window</span><
       <div class="milestone done">
         <h4>1.0.0 — Shipped</h4>
         <h3>Engine, widget library, apps that run as apps</h3>
-        <p>The Python engine with interlocks and multi-station control, 21 widgets, live diagrams, the demo apps, and a standalone window by default.</p>
+        <p>The Python engine with interlocks and multi-station control, 28 widgets including ten device cards, live diagrams, the robot fleet and widget gallery demos, and a standalone window by default.</p>
       </div>
 
       <div class="milestone">
@@ -556,10 +593,10 @@ eng.run()                        <span class="cm"># opens its own window</span><
     <div class="foot-cols">
       <div class="foot-col">
         <div class="foot-h">Project</div>
-        <a href="https://github.com/jonjenkins31/VisualReactpy" target="_blank" rel="noopener">GitHub repo</a>
-        <a href="https://github.com/jonjenkins31/VisualReactpy/blob/master/README.md" target="_blank" rel="noopener">README</a>
-        <a href="https://github.com/jonjenkins31/VisualReactpy/releases/tag/v1.0.0" target="_blank" rel="noopener">Release 1.0.0</a>
-        <a href="https://github.com/jonjenkins31/VisualReactpy/issues" target="_blank" rel="noopener">Issues</a>
+        <a href="https://github.com/jonjenkins31/NexusUI" target="_blank" rel="noopener">GitHub repo</a>
+        <a href="https://github.com/jonjenkins31/NexusUI/blob/master/README.md" target="_blank" rel="noopener">README</a>
+        <a href="https://github.com/jonjenkins31/NexusUI/releases/tag/v1.0.0" target="_blank" rel="noopener">Release 1.0.0</a>
+        <a href="https://github.com/jonjenkins31/NexusUI/issues" target="_blank" rel="noopener">Issues</a>
       </div>
       <div class="foot-col">
         <div class="foot-h">More projects</div>
