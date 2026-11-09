@@ -28,7 +28,7 @@ dev = ["pytest>=8", "httpx>=0.27", "websockets>=12"]
 nexusui = "nexusui.cli:main"
 
 [project.urls]
-"Homepage" = "https://github.com/jonjenkins31/VisualReactpy"
+"Homepage" = "https://github.com/jonjenkins31/NexusUI"
 
 [tool.setuptools.packages.find]
 where = ["framework"]
