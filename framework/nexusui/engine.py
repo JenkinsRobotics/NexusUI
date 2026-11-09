@@ -43,6 +43,9 @@ class WriteRejected(Exception):
 # --------------------------------------------------------------------------
 # Channels
 # --------------------------------------------------------------------------
+IO_KINDS = {"DO": ("bool", True), "DI": ("bool", False), "AO": ("number", True), "AI": ("number", False)}
+
+
 class Channel:
     """One named value. Hardware threads call ``set``; UIs request writes."""
 
@@ -385,8 +388,13 @@ class Engine:
 
     # ------------------------------------------------------------------ API
     def channel(self, name: str, kind: str = "number", **kw) -> Channel:
+        """Declare a named value. ``kind`` is number, bool, enum or text, or an I/O shorthand:
+        DO / DI (an on/off you set / read) or AO / AI (a value you set / read)."""
         if name in self.channels:
             raise ValueError(f"channel {name!r} already defined")
+        if kind.upper() in IO_KINDS:
+            kind, writable = IO_KINDS[kind.upper()]
+            kw.setdefault("writable", writable)
         ch = Channel(self, name, kind, **kw)
         self.channels[name] = ch
         if kind == "number":

@@ -3,7 +3,7 @@ import { cx } from "../kit";
 import type { WidgetItem, WidgetSpec } from "../lib/types";
 import { sizeFor, widgetUIs } from "./registry";
 
-class Boundary extends Component<{ children: ReactNode; name: string }, { error: Error | null }> {
+export class Boundary extends Component<{ children: ReactNode; name: string }, { error: Error | null }> {
   state = { error: null as Error | null };
   static getDerivedStateFromError(error: Error) { return { error }; }
   render() {

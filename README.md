@@ -93,7 +93,7 @@ In code this is `eng.run()` for the window and `eng.run(desktop=False)` for brow
 
 ## Widget library
 
-Every widget below ships with the framework and needs no UI code: declare a channel or a device in Python, then place the widget from **Edit layout**. `nexusui widgets` prints this list.
+Every widget below ships with the framework and needs no UI code: declare a channel or a device in Python, then place the widget from **Edit layout**. The same editor adds and changes widgets: the catalogue on the left (widgets, and the devices this app created), a live preview in the middle, settings on the right. Channels are filed as DO, DI, AO and AI (on/off and values, each set or read), states and text, grouped by their source; functions have their own list. `nexusui widgets` prints the list below.
 
 A chart or panel can take a whole group at once: `"binds": ["rtd.*"]` follows every channel whose name starts with `rtd.`, including ones the app adds later.
 
@@ -208,12 +208,12 @@ eng.run()
 
 ### Outputs, inputs and functions
 
-A channel is a named value with a type, a range and limits. Make it `writable` and the UI gets a control for it; put the hardware call in its write handler. A function becomes a button with one decorator. An app with no saved layout opens with a widget for every channel and command, so everything is on screen from the first run and you rearrange it later with **Edit layout**.
+A channel is a named value with a type, a range and limits. The kinds are `number`, `bool`, `enum` and `text`, or the I/O shorthands `DO`, `DI`, `AO`, `AI` (an on/off or a value, one you set or one you read). Anything you can set gets a control in the UI; put the hardware call in its write handler. A function becomes a button with one decorator. An app with no saved layout opens with a widget for every channel and command, so everything is on screen from the first run and you rearrange it later with **Edit layout**.
 
 ```python
-valve = eng.channel("io.valve", "bool", label="Coolant Valve", writable=True)    # a switch
-fan = eng.channel("io.fan", label="Fan", unit="%", min=0, max=100, writable=True)  # a slider
-rtds = [eng.channel(f"rtd.{k}", label=f"RTD {k}", unit="°C", warn_high=60) for k in range(1, 9)]
+valve = eng.channel("io.valve", "DO", label="Coolant Valve")                   # on/off you set: a switch
+fan = eng.channel("io.fan", "AO", label="Fan", unit="%", min=0, max=100)         # value you set: a slider
+rtds = [eng.channel(f"rtd.{k}", "AI", label=f"RTD {k}", unit="°C", warn_high=60) for k in range(1, 9)]
 
 @valve.on_write
 def _(on):                       # the switch ends up here, after type, range and interlock checks

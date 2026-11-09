@@ -299,3 +299,13 @@ def test_app_without_a_saved_layout_gets_a_widget_for_everything(tmp_path):
     assert by_bind == {"io.valve": "toggle", "io.fan": "slider", "rtd.1": "stat", "mode": "mode",
                        "io.purge": "button", "m1": "motor"}          # device channels are not repeated
     assert all(w["x"] + w["w"] <= layout["cols"] for w in widgets)   # nothing hangs off the grid
+
+
+def test_io_shorthand_kinds(tmp_path):
+    e = Engine("T", app_dir=tmp_path)
+    do, di, ao, ai = e.channel("a", "DO"), e.channel("b", "di"), e.channel("c", "AO", min=0, max=10), e.channel("d", "AI", unit="°C")
+    assert (do.kind, do.writable) == ("bool", True)
+    assert (di.kind, di.writable) == ("bool", False)
+    assert (ao.kind, ao.writable) == ("number", True)
+    assert (ai.kind, ai.writable, ai.unit) == ("number", False, "°C")
+    assert e.channel("e", "DI", writable=True).writable          # an explicit writable still wins

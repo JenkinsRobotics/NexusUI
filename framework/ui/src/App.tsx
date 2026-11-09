@@ -4,7 +4,7 @@ import { EditCtx, useStation, useTopic } from "./lib/hooks";
 import { ls } from "./lib/ls";
 import type { Layout, Tab, WidgetItem, WidgetSpec } from "./lib/types";
 import { ConnBanner, ControlBadge, OverrideBanner, OverrideControl, Sidebar, StationName, StatusBar, TabBar, Toasts } from "./shell/Chrome";
-import { AddWidget, Inspector, OverrideConfirm, TakeControl } from "./shell/Dialogs";
+import { OverrideConfirm, TakeControl, WidgetEditor } from "./shell/Dialogs";
 import { Grid, type GridConf } from "./shell/Grid";
 
 async function api<T>(path: string, init?: RequestInit): Promise<T> {
@@ -146,13 +146,11 @@ export default function App() {
     await load(name);
   };
 
-  const addWidget = (spec: WidgetSpec, device?: string) => {
+  const addWidget = (draft: WidgetItem) => {
     if (!tab) return;
-    const [w, h] = spec.size_cells[spec.default_size] ?? [8, 10];
-    const item: WidgetItem = { i: `w${uid()}`, type: spec.type, x: 0, y: 10_000, w, h, size: spec.default_size, device };
+    const item: WidgetItem = { ...draft, i: `w${uid()}`, x: 0, y: 10_000 };   // the grid packs it below the rest
     updateTab((t) => ({ ...t, widgets: [...t.widgets, item] }));
     setAdding(false);
-    if (!device && spec.bind !== "none") setInspect(item);
   };
 
   if (error && !layout) return <div className="fatal">{error}</div>;
@@ -230,9 +228,9 @@ export default function App() {
         </div>
         <StatusBar />
         <Toasts />
-        {adding && <AddWidget specs={Object.values(specs)} onPick={addWidget} onClose={() => setAdding(false)} />}
-        {inspect && specs[inspect.type] && (
-          <Inspector item={inspect} spec={specs[inspect.type]} onClose={() => setInspect(null)}
+        {adding && <WidgetEditor specs={specs} onApply={addWidget} onClose={() => setAdding(false)} />}
+        {inspect && (
+          <WidgetEditor specs={specs} item={inspect} onClose={() => setInspect(null)}
             onApply={(it) => { updateTab((t) => ({ ...t, widgets: t.widgets.map((w) => (w.i === it.i ? it : w)) })); setInspect(null); }} />
         )}
         {takeFrom && <TakeControl holder={takeFrom} onClose={() => setTakeFrom(null)} />}
