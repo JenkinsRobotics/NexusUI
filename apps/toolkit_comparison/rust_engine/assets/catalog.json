@@ -1,0 +1,127 @@
+{
+ "channels": [
+  {
+   "name": "psu.output",
+   "kind": "bool",
+   "label": "Output",
+   "unit": "",
+   "group": "psu",
+   "writable": true,
+   "fmt": "fixed",
+   "description": "",
+   "interlocked": true
+  },
+  {
+   "name": "psu.vset",
+   "kind": "number",
+   "label": "Setpoint",
+   "unit": "V",
+   "group": "psu",
+   "writable": true,
+   "fmt": "fixed",
+   "description": "",
+   "min": 0,
+   "max": 24,
+   "step": 0.1,
+   "precision": 1
+  },
+  {
+   "name": "psu.voltage",
+   "kind": "number",
+   "label": "Voltage",
+   "unit": "V",
+   "group": "psu",
+   "writable": false,
+   "fmt": "fixed",
+   "description": "",
+   "min": 0,
+   "max": 24,
+   "precision": 2
+  },
+  {
+   "name": "psu.current",
+   "kind": "number",
+   "label": "Current",
+   "unit": "A",
+   "group": "psu",
+   "writable": false,
+   "fmt": "fixed",
+   "description": "",
+   "min": 0,
+   "max": 4,
+   "precision": 2
+  },
+  {
+   "name": "board.temp",
+   "kind": "number",
+   "label": "Temperature",
+   "unit": "\u00b0C",
+   "group": "board",
+   "writable": false,
+   "fmt": "fixed",
+   "description": "",
+   "min": 0,
+   "max": 100,
+   "precision": 1,
+   "limits": {
+    "warn_high": 65,
+    "alarm_high": 80
+   }
+  },
+  {
+   "name": "board.fan",
+   "kind": "enum",
+   "label": "Fan",
+   "unit": "",
+   "group": "board",
+   "writable": true,
+   "fmt": "fixed",
+   "description": "",
+   "options": [
+    "AUTO",
+    "LOW",
+    "HIGH"
+   ]
+  },
+  {
+   "name": "board.state",
+   "kind": "enum",
+   "label": "State",
+   "unit": "",
+   "group": "board",
+   "writable": false,
+   "fmt": "fixed",
+   "description": "",
+   "options": [
+    "IDLE",
+    "RUNNING",
+    "FAULT"
+   ],
+   "states": {
+    "IDLE": "off",
+    "RUNNING": "ok",
+    "FAULT": "alarm"
+   }
+  },
+  {
+   "name": "board.tripped",
+   "kind": "bool",
+   "label": "Tripped",
+   "unit": "",
+   "group": "board",
+   "writable": false,
+   "fmt": "fixed",
+   "description": ""
+  }
+ ],
+ "commands": [
+  {
+   "name": "psu.reset_trip",
+   "label": "Reset Trip",
+   "confirm": false,
+   "danger": false,
+   "group": "psu",
+   "description": ""
+  }
+ ]
+}

@@ -1,0 +1,102 @@
+{
+ "version": 1,
+ "cols": 24,
+ "title": "Robot Fleet",
+ "tabs": [
+  {
+   "id": "rover",
+   "title": "Survey Rover",
+   "widgets": [
+    {"i": "r0", "type": "fleet_status", "x": 0, "y": 0, "w": 24, "h": 7},
+
+    {"i": "r1", "type": "map", "x": 0, "y": 7, "w": 12, "h": 40, "title": "Survey field", "binds": ["rover.x", "rover.y", "rover.heading"], "options": {"waypoints": "rover.waypoints", "trail": 240}},
+    {"i": "r2", "type": "steps", "x": 12, "y": 7, "w": 4, "h": 18, "bind": "rover.mission"},
+    {"i": "r3", "type": "scan", "x": 16, "y": 7, "w": 8, "h": 18, "title": "Lidar", "bind": "rover.scan", "options": {"max_range": 20, "fov": 180}},
+    {"i": "r4", "type": "mode", "x": 12, "y": 25, "w": 6, "h": 8, "bind": "rover.mode"},
+    {"i": "r5", "type": "slider", "x": 18, "y": 25, "w": 6, "h": 8, "bind": "rover.cruise", "options": {"readback": "rover.speed"}},
+    {"i": "r6", "type": "joystick", "x": 12, "y": 33, "w": 4, "h": 14, "binds": ["rover.joy_x", "rover.joy_y"]},
+    {"i": "r7", "type": "button", "x": 16, "y": 33, "w": 4, "h": 7, "command": "rover.start"},
+    {"i": "r8", "type": "button", "x": 20, "y": 33, "w": 4, "h": 7, "command": "rover.dock"},
+    {"i": "r9", "type": "button", "x": 16, "y": 40, "w": 4, "h": 7, "command": "rover.estop"},
+    {"i": "r10", "type": "button", "x": 20, "y": 40, "w": 4, "h": 7, "command": "rover.reset"},
+
+    {"i": "r11", "type": "motor", "x": 0, "y": 47, "w": 4, "h": 21, "device": "rover_left"},
+    {"i": "r12", "type": "motor", "x": 4, "y": 47, "w": 4, "h": 21, "device": "rover_right"},
+    {"i": "r13", "type": "battery", "x": 8, "y": 47, "w": 4, "h": 21, "device": "rover_batt"},
+    {"i": "r14", "type": "range_sensor", "x": 12, "y": 47, "w": 4, "h": 21, "device": "rover_lidar"},
+    {"i": "r15", "type": "chart", "x": 16, "y": 47, "w": 8, "h": 21, "title": "Ground reading along the route", "binds": ["rover.reading"], "options": {"window": 120}},
+
+    {"i": "r16", "type": "stat", "x": 0, "y": 68, "w": 6, "h": 10, "bind": "rover.speed"},
+    {"i": "r17", "type": "gauge", "x": 6, "y": 68, "w": 6, "h": 10, "bind": "rover.coverage"},
+    {"i": "r18", "type": "stat", "x": 12, "y": 68, "w": 6, "h": 10, "bind": "rover.clearance"},
+    {"i": "r19", "type": "stat", "x": 18, "y": 68, "w": 3, "h": 10, "bind": "rover.odometer"},
+    {"i": "r20", "type": "indicator", "x": 21, "y": 68, "w": 3, "h": 10, "bind": "rover.estop", "options": {"on_text": "PRESSED", "off_text": "CLEAR"}}
+   ]
+  },
+  {
+   "id": "drone",
+   "title": "Drone",
+   "widgets": [
+    {"i": "d0", "type": "fleet_status", "x": 0, "y": 0, "w": 24, "h": 7},
+
+    {"i": "d1", "type": "attitude", "x": 0, "y": 7, "w": 8, "h": 30, "binds": ["drone.roll", "drone.pitch", "drone.heading"]},
+    {"i": "d2", "type": "bar", "x": 8, "y": 7, "w": 3, "h": 30, "title": "Altitude", "bind": "drone.alt", "options": {"target": "drone.alt_set", "min": 0, "max": 60}},
+    {"i": "d3", "type": "gauge", "x": 11, "y": 7, "w": 5, "h": 15, "bind": "drone.speed"},
+    {"i": "d4", "type": "gauge", "x": 11, "y": 22, "w": 5, "h": 15, "bind": "drone.wind"},
+    {"i": "d5", "type": "camera", "x": 16, "y": 7, "w": 8, "h": 30, "device": "drone_cam"},
+
+    {"i": "d6", "type": "motor", "x": 0, "y": 37, "w": 4, "h": 10, "device": "rotor1"},
+    {"i": "d7", "type": "motor", "x": 4, "y": 37, "w": 4, "h": 10, "device": "rotor2"},
+    {"i": "d8", "type": "motor", "x": 0, "y": 47, "w": 4, "h": 11, "device": "rotor3"},
+    {"i": "d9", "type": "motor", "x": 4, "y": 47, "w": 4, "h": 11, "device": "rotor4"},
+    {"i": "d10", "type": "battery", "x": 8, "y": 37, "w": 4, "h": 21, "device": "drone_batt"},
+    {"i": "d11", "type": "radio", "x": 12, "y": 37, "w": 4, "h": 21, "device": "drone_link"},
+    {"i": "d12", "type": "servo", "x": 16, "y": 37, "w": 4, "h": 21, "device": "gimbal"},
+    {"i": "d13", "type": "heater", "x": 20, "y": 37, "w": 4, "h": 10, "device": "batt_heat"},
+    {"i": "d14", "type": "stat", "x": 20, "y": 47, "w": 4, "h": 11, "bind": "drone.sats"},
+
+    {"i": "d15", "type": "mode", "x": 0, "y": 58, "w": 8, "h": 8, "bind": "drone.pattern"},
+    {"i": "d16", "type": "slider", "x": 8, "y": 58, "w": 6, "h": 8, "bind": "drone.alt_set", "options": {"readback": "drone.alt"}},
+    {"i": "d17", "type": "button", "x": 14, "y": 58, "w": 3, "h": 8, "command": "drone.takeoff"},
+    {"i": "d18", "type": "button", "x": 17, "y": 58, "w": 3, "h": 8, "command": "drone.rtl"},
+    {"i": "d19", "type": "button", "x": 20, "y": 58, "w": 4, "h": 8, "command": "drone.land"},
+
+    {"i": "d20", "type": "chart", "x": 0, "y": 66, "w": 16, "h": 20, "title": "Flight", "binds": ["drone.alt", "drone_batt.soc", "drone.home"], "options": {"window": 180}},
+    {"i": "d21", "type": "panel", "x": 16, "y": 66, "w": 8, "h": 20, "title": "Flight data", "binds": ["drone.phase", "drone.speed", "drone.climb", "drone.home", "drone.wind", "drone.sats"]}
+   ]
+  },
+  {
+   "id": "water",
+   "title": "Sub + Boat",
+   "widgets": [
+    {"i": "w0", "type": "fleet_status", "x": 0, "y": 0, "w": 24, "h": 7},
+
+    {"i": "w1", "type": "diagram", "x": 0, "y": 7, "w": 10, "h": 28, "options": {"diagram": "tether"}},
+    {"i": "w2", "type": "bar", "x": 10, "y": 7, "w": 3, "h": 28, "title": "Depth", "bind": "sub.depth", "options": {"invert": true, "target": "sub.depth_set", "min": 0, "max": 80}},
+    {"i": "w3", "type": "scan", "x": 13, "y": 7, "w": 6, "h": 18, "title": "Forward sonar", "bind": "sub.scan", "options": {"max_range": 40, "fov": 120}},
+    {"i": "w4", "type": "steps", "x": 19, "y": 7, "w": 5, "h": 18, "bind": "sub.phase"},
+    {"i": "w5", "type": "map", "x": 13, "y": 25, "w": 11, "h": 20, "title": "Tender and ROV", "binds": ["boat.x", "boat.y", "boat.heading", "sub.x", "sub.y", "sub.heading"], "options": {"trail": 240}},
+
+    {"i": "w6", "type": "slider", "x": 0, "y": 35, "w": 4, "h": 10, "bind": "sub.depth_set", "options": {"readback": "sub.depth"}},
+    {"i": "w7", "type": "button", "x": 4, "y": 35, "w": 3, "h": 10, "command": "sub.dive"},
+    {"i": "w8", "type": "button", "x": 7, "y": 35, "w": 3, "h": 10, "command": "sub.surface"},
+    {"i": "w9", "type": "button", "x": 10, "y": 35, "w": 3, "h": 10, "command": "sub.emergency"},
+
+    {"i": "w10", "type": "pump", "x": 0, "y": 45, "w": 4, "h": 21, "device": "ballast"},
+    {"i": "w11", "type": "pump", "x": 4, "y": 45, "w": 4, "h": 21, "device": "sampler"},
+    {"i": "w12", "type": "range_sensor", "x": 8, "y": 45, "w": 4, "h": 21, "device": "sonar"},
+    {"i": "w13", "type": "beacon", "x": 12, "y": 45, "w": 4, "h": 21, "device": "pinger"},
+    {"i": "w14", "type": "servo", "x": 16, "y": 45, "w": 4, "h": 21, "device": "winch"},
+    {"i": "w15", "type": "power_meter", "x": 20, "y": 45, "w": 4, "h": 10, "device": "tether_pm"},
+    {"i": "w16", "type": "radio", "x": 20, "y": 55, "w": 4, "h": 11, "device": "shore_link"},
+
+    {"i": "w17", "type": "chart", "x": 0, "y": 66, "w": 10, "h": 21, "title": "Depth and seabed", "binds": ["sub.depth", "sub.seabed", "sub.alt"], "options": {"window": 240}},
+    {"i": "w18", "type": "motor", "x": 10, "y": 66, "w": 4, "h": 10, "device": "boat_port"},
+    {"i": "w19", "type": "motor", "x": 14, "y": 66, "w": 4, "h": 10, "device": "boat_stbd"},
+    {"i": "w20", "type": "motor", "x": 10, "y": 76, "w": 4, "h": 11, "device": "sub_vert"},
+    {"i": "w21", "type": "motor", "x": 14, "y": 76, "w": 4, "h": 11, "device": "sub_main"},
+    {"i": "w22", "type": "panel", "x": 18, "y": 66, "w": 6, "h": 21, "title": "Water and tether", "binds": ["sub.temp", "sub.salinity", "sub.turbidity", "sub.tension", "sub.tether_power", "sub.leak"], "options": {"commands": ["sub.leak_test"]}}
+   ]
+  }
+ ]
+}

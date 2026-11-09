@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "cols": 24,
+ "title": "Hello Station",
+ "tabs": [
+  {
+   "id": "main",
+   "title": "Main",
+   "widgets": [
+    {
+     "i": "w1",
+     "x": 0,
+     "y": 0,
+     "w": 4,
+     "h": 21,
+     "type": "motor",
+     "device": "fan1",
+     "title": "Fan"
+    },
+    {
+     "i": "w2",
+     "x": 4,
+     "y": 0,
+     "w": 4,
+     "h": 10,
+     "type": "stat",
+     "bind": "demo.temp",
+     "size": "s"
+    },
+    {
+     "i": "w3",
+     "x": 8,
+     "y": 0,
+     "w": 3,
+     "h": 11,
+     "type": "toggle",
+     "bind": "demo.heater",
+     "size": "s"
+    },
+    {
+     "i": "w4",
+     "x": 11,
+     "y": 0,
+     "w": 3,
+     "h": 10,
+     "type": "slider",
+     "bind": "demo.setpoint",
+     "size": "m"
+    },
+    {
+     "i": "w5",
+     "x": 14,
+     "y": 0,
+     "w": 3,
+     "h": 11,
+     "type": "button",
+     "command": "demo.all_off",
+     "size": "s"
+    }
+   ]
+  }
+ ],
+ "saved_at": 1793731995.1201549
+}

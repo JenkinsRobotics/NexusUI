@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nexusui"
+version = "1.0.0"
+description = "A visual way to monitor and control hardware and IoT I/O from Python: live control panels in their own window or any browser."
+readme = "README.md"
+authors = [{ name = "Jenkins Robotics", email = "info@jenkinsrobotics.com" }]
+license = { text = "MIT" }
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Human Machine Interfaces",
+]
+dependencies = [
+    "starlette>=0.40",
+    "uvicorn[standard]>=0.30",
+    "pywebview>=5.0",   # the standalone window
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "httpx>=0.27", "websockets>=12"]
+
+[project.scripts]
+nexusui = "nexusui.cli:main"
+
+[project.urls]
+"Homepage" = "https://github.com/jonjenkins31/VisualReactpy"
+
+[tool.setuptools.packages.find]
+where = ["framework"]
+include = ["nexusui*"]
+
+[tool.setuptools.package-data]
+nexusui = ["ui_dist/*", "ui_dist/**/*", "widgets/*/ui.tsx"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

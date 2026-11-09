@@ -1,0 +1,14 @@
+{
+ "version": 1, "cols": 24, "title": "Bench Supply",
+ "tabs": [{"id": "main", "title": "Main", "widgets": [
+  {"i": "w1", "type": "stat", "x": 0, "y": 0, "w": 8, "h": 10, "bind": "psu.voltage"},
+  {"i": "w2", "type": "stat", "x": 8, "y": 0, "w": 8, "h": 10, "bind": "psu.current"},
+  {"i": "w3", "type": "stat", "x": 16, "y": 0, "w": 8, "h": 10, "bind": "board.temp"},
+  {"i": "w4", "type": "toggle", "x": 0, "y": 10, "w": 4, "h": 10, "bind": "psu.output"},
+  {"i": "w5", "type": "slider", "x": 4, "y": 10, "w": 8, "h": 10, "bind": "psu.vset"},
+  {"i": "w6", "type": "mode", "x": 12, "y": 10, "w": 4, "h": 10, "bind": "board.fan"},
+  {"i": "w7", "type": "indicator", "x": 16, "y": 10, "w": 4, "h": 10, "bind": "board.state"},
+  {"i": "w8", "type": "button", "x": 20, "y": 10, "w": 4, "h": 10, "command": "psu.reset_trip"},
+  {"i": "w9", "type": "chart", "x": 0, "y": 20, "w": 24, "h": 26, "binds": ["psu.voltage", "psu.current", "board.temp"], "options": {"window": 60}}
+ ]}]
+}

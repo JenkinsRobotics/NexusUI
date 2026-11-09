@@ -1,0 +1,21 @@
+# environments and tools
+venv/
+.venv/
+.tools/
+node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# editor / OS
+.DS_Store
+.vscode/
+*.tmp
+
+# Built UIs are committed on purpose so apps run without Node.js.
+
+# Rust build output (apps/toolkit_comparison/rust_app)
+target/
