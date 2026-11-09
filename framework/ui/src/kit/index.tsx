@@ -9,7 +9,7 @@ import { useFrame } from "../lib/frame";
 import { ago, fmtValue, toneOf } from "../lib/format";
 import type { ChannelInfo, DeviceInfo, Tone } from "../lib/types";
 
-export { useBypass, useCanOperate, useChannel, useCommand, useDevice, useStation, useNow, useTopic } from "../lib/hooks";
+export { expandBinds, useBypass, useCanOperate, useChannel, useCommand, useDevice, useStation, useNow, useTopic, useViewState } from "../lib/hooks";
 export { useFrame } from "../lib/frame";
 export * from "../lib/format";
 export type { WidgetProps } from "../lib/types";

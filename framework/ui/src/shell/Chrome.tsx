@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ls } from "../lib/ls";
 import { clock, cx } from "../kit";
 import { useNow, useStation, useTopic } from "../lib/hooks";
 import type { Tab } from "../lib/types";
@@ -106,7 +107,8 @@ export function Sidebar() {
   useTopic("alerts");
   useTopic("logs");
   const [view, setView] = useState<"alerts" | "events">("alerts");
-  const [open, setOpen] = useState(true);
+  const [open, setOpenState] = useState(() => ls.get("vp.side") !== "hidden");
+  const setOpen = (v: boolean) => { setOpenState(v); ls.set("vp.side", v ? "shown" : "hidden"); };
   const counts = { alarm: 0, warn: 0, info: 0 };
   for (const a of st.alerts) if (a.active || !a.acked) counts[a.level] = (counts[a.level] ?? 0) + 1;
   const unacked = st.alerts.filter((a) => !a.acked).length;

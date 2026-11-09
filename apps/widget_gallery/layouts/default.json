@@ -125,7 +125,7 @@
      "h": 10,
      "title": "Try it",
      "options": {
-      "text": "Switch the output on, raise the setpoint to 24 V and set the fan to LOW.\nThe board warms up, warns, alarms and trips. The output then stays locked until it cools and you press Reset Trip."
+      "text": "Switch the output on, raise the setpoint to 24 V and set the fan to LOW.\nThe board warms up, warns, alarms and trips. The output then stays locked until it cools and you press Reset Trip.\nClick a name in the trend's legend to hide that line. It stays hidden on this browser after a refresh."
      }
     },
     {

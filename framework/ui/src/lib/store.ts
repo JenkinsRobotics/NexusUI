@@ -77,6 +77,7 @@ export class Station {
   writers = new Map<string, Writer>();
   locks = new Map<string, string>();
   history = new History();
+  layoutName = "";      // the layout on screen, for per-widget view state
   rtt = NaN;
   offset = 0;           // server time minus local time, seconds
   rate = 0;             // updates received per second

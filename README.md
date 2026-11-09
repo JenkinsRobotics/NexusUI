@@ -95,6 +95,8 @@ In code this is `eng.run()` for the window and `eng.run(desktop=False)` for brow
 
 Every widget below ships with the framework and needs no UI code: declare a channel or a device in Python, then place the widget from **Edit layout**. `nexusui widgets` prints this list.
 
+A chart or panel can take a whole group at once: `"binds": ["rtd.*"]` follows every channel whose name starts with `rtd.`, including ones the app adds later.
+
 **Readouts and controls**
 
 | Widget | Shows or controls | What it is |
@@ -104,7 +106,7 @@ Every widget below ships with the framework and needs no UI code: declare a chan
 | `bar` | a number | Bar with a scale, limit colors and a target marker. Upright or horizontal; can read downward, for depth. |
 | `indicator` | an on/off or state channel | Lamp for a status bit or a state like OK / LOCKED / TRIPPED. |
 | `steps` | a state channel | Progress through a mission or sequence, with the current step highlighted. |
-| `chart` | several numbers | Scrolling trend, with log scale. |
+| `chart` | several numbers | Scrolling trend, with log scale. Click a name in the legend to hide that line. |
 | `panel` | any channels and commands | A list of readings, controls and buttons, like an instrument front panel. |
 | `toggle` | a writable on/off channel | Switch. Shows who last changed it and why it is locked. |
 | `slider` | a writable number | Drag or type a setpoint, with readback. |
@@ -203,6 +205,36 @@ def physics(dt):
 
 eng.run()
 ```
+
+### Outputs, inputs and functions
+
+A channel is a named value with a type, a range and limits. Make it `writable` and the UI gets a control for it; put the hardware call in its write handler. A function becomes a button with one decorator. An app with no saved layout opens with a widget for every channel and command, so everything is on screen from the first run and you rearrange it later with **Edit layout**.
+
+```python
+valve = eng.channel("io.valve", "bool", label="Coolant Valve", writable=True)    # a switch
+fan = eng.channel("io.fan", label="Fan", unit="%", min=0, max=100, writable=True)  # a slider
+rtds = [eng.channel(f"rtd.{k}", label=f"RTD {k}", unit="°C", warn_high=60) for k in range(1, 9)]
+
+@valve.on_write
+def _(on):                       # the switch ends up here, after type, range and interlock checks
+    gpio.write(17, on)
+
+@eng.command("io.purge", label="Purge Lines", confirm=True)
+def purge():                     # the button runs this
+    ...
+
+@eng.loop(hz=20)
+def read(dt):
+    for k, ch in enumerate(rtds):
+        ch.set(board.read_rtd(k))
+```
+
+### What is remembered
+
+- **Layouts** are saved as JSON in the app's `layouts/` folder when you press **Save** in Edit layout, and every station shows the same ones.
+- **Per browser**, with nothing to save: the chosen layout, the current tab, whether the alert panel is open, and choices made inside widgets, such as which lines of a chart are hidden. Refresh the page or come back the next day and it is as you left it; other stations are not affected.
+- To make such a choice the default for everyone, put it in the layout: for a chart, `"options": {"hidden": ["rtd.3"]}`.
+- A widget of your own gets the same with one hook: `const [open, setOpen] = useViewState(item, "open", false)`.
 
 ### Adding a device to the framework
 

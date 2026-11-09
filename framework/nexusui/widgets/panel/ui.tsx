@@ -1,10 +1,10 @@
-import { ChannelRow, CmdButton, Title, Unbound, cx, useStation, useTopic, type WidgetProps } from "@station/kit";
+import { ChannelRow, CmdButton, Title, Unbound, cx, expandBinds, useStation, useTopic, type WidgetProps } from "@station/kit";
 
 /** Instrument-style panel: one row per channel, rendered by type, plus command buttons. */
 export default function Panel({ item }: WidgetProps) {
   const st = useStation();
   useTopic("catalog");
-  const binds = item.binds ?? [];
+  const binds = expandBinds(st, item.binds);
   const lockColumn = binds.some((b) => st.channels.get(b)?.interlocked);
   const commands: string[] = item.options?.commands ?? [];
   if (!binds.length && !commands.length) return <Unbound what="channels" />;

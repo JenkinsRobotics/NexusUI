@@ -358,7 +358,9 @@ button:disabled { cursor: not-allowed; }
 .chart-host { flex: 1; min-height: 0; position: relative; }
 .chart-host .uplot { position: absolute; inset: 0; font-family: var(--font); }
 .chart-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: -2px 0 6px; flex: 0 0 auto !important; }
-.legend-item { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-2); min-width: 0; }
+.legend-item { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-2); min-width: 0; cursor: pointer; user-select: none; }
+.legend-item.off { opacity: .45; }
+.legend-item.off .legend-dot { background: transparent !important; box-shadow: inset 0 0 0 1.5px var(--text-3); }
 .legend-dot { width: 9px; height: 9px; border-radius: 3px; flex: 0 0 auto; }
 .legend-item .readout { font-size: 11px; color: var(--text); }
 

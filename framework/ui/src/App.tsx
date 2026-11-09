@@ -1,15 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { cx } from "./kit";
 import { EditCtx, useStation, useTopic } from "./lib/hooks";
+import { ls } from "./lib/ls";
 import type { Layout, Tab, WidgetItem, WidgetSpec } from "./lib/types";
 import { ConnBanner, ControlBadge, OverrideBanner, OverrideControl, Sidebar, StationName, StatusBar, TabBar, Toasts } from "./shell/Chrome";
 import { AddWidget, Inspector, OverrideConfirm, TakeControl } from "./shell/Dialogs";
 import { Grid, type GridConf } from "./shell/Grid";
-
-const ls = {
-  get: (k: string) => { try { return localStorage.getItem(k); } catch { return null; } },
-  set: (k: string, v: string) => { try { localStorage.setItem(k, v); } catch { /* blocked */ } },
-};
 
 async function api<T>(path: string, init?: RequestInit): Promise<T> {
   const r = await fetch(path, init);
@@ -60,6 +56,7 @@ export default function App() {
   const load = useCallback(async (n: string) => {
     try {
       const l = normalize(await api<Layout>(`/api/layouts/${encodeURIComponent(n)}`));
+      st.layoutName = n;
       setLayout(l);
       setName(n);
       setDirty(false);
@@ -132,6 +129,7 @@ export default function App() {
         headers: { "content-type": "application/json", "x-station-name": st.you?.name ?? "", "x-station-id": st.you?.id ?? "" },
         body: JSON.stringify(layout),
       });
+      st.layoutName = target;
       setName(target);
       ls.set("vp.layout", target);
       setDirty(false);

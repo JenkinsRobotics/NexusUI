@@ -1,15 +1,18 @@
 import { useEffect, useRef } from "react";
 import uPlot from "uplot";
 import "uplot/dist/uPlot.min.css";
-import { SERIES_COLORS, Title, Unbound, Value, useFrame, useStation, useTopic, type WidgetProps } from "@station/kit";
+import { SERIES_COLORS, Title, Unbound, Value, cx, expandBinds, useFrame, useStation, useTopic, useViewState, type WidgetProps } from "@station/kit";
 
 const LIVE_HZ = 15;   // chart samples and redraws per second
 
 export default function Chart({ item, cells }: WidgetProps) {
   const st = useStation();
   useTopic("catalog");
-  const binds = item.binds?.length ? item.binds : item.bind ? [item.bind] : [];
+  const binds = expandBinds(st, item.binds?.length ? item.binds : item.bind ? [item.bind] : []);
   const win: number = Number(item.options?.window) || 60;
+  // series hidden by clicking the legend; options.hidden is the starting point for every station
+  const [hidden, setHidden] = useViewState<string[]>(item, "hidden", item.options?.hidden ?? []);
+  const toggle = (b: string) => setHidden((h) => (h.includes(b) ? h.filter((x) => x !== b) : [...h, b]));
   const log: boolean = item.options?.log ?? (binds.length > 0 && binds.every((b) => st.channels.get(b)?.log_scale));
   const host = useRef<HTMLDivElement>(null);
   const plot = useRef<uPlot | null>(null);
@@ -47,6 +50,7 @@ export default function Chart({ item, cells }: WidgetProps) {
             label: info ? `${info.label}${info.unit ? ` (${info.unit})` : ""}` : b,
             stroke: SERIES_COLORS[k % SERIES_COLORS.length],
             width: 1.6,
+            show: !hidden.includes(b),
             points: { show: false },
             fill: binds.length === 1 ? SERIES_COLORS[0] + "18" : undefined,
           };
@@ -60,6 +64,10 @@ export default function Chart({ item, cells }: WidgetProps) {
     return () => { ro.disconnect(); u.destroy(); plot.current = null; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, win, log, st, epoch]);
+
+  useEffect(() => {
+    binds.forEach((b, k) => plot.current?.setSeries(k + 1, { show: !hidden.includes(b) }));
+  }, [hidden, binds]);   // eslint-disable-line react-hooks/exhaustive-deps
 
   useFrame(() => {
     const u = plot.current;
@@ -91,7 +99,8 @@ export default function Chart({ item, cells }: WidgetProps) {
       {showLegend && (
         <div className="chart-legend">
           {binds.map((b, k) => (
-            <span key={b} className="legend-item" title={b}>
+            <span key={b} className={cx("legend-item", hidden.includes(b) && "off")} title={`${b} · click to ${hidden.includes(b) ? "show" : "hide"}`}
+              onClick={() => toggle(b)}>
               <span className="legend-dot" style={{ background: SERIES_COLORS[k % SERIES_COLORS.length] }} />
               {st.channels.get(b)?.label ?? b} <Value ch={b} />
             </span>

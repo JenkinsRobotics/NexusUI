@@ -91,7 +91,10 @@ function MultiPick({ items, selected, onChange }: {
 }) {
   const [q, setQ] = useState("");
   const shown = items.filter((i) => `${i.label} ${i.id}`.toLowerCase().includes(q.toLowerCase()));
+  const pattern = q.includes("*") ? q.trim() : null;     // "rtd.*" binds every channel that matches, now and later
+  const patterns = selected.filter((s) => s.includes("*") && s !== pattern);
   const groups = new Map<string, typeof items>();
+  if (pattern || patterns.length) groups.set("patterns", [...(pattern ? [pattern] : []), ...patterns].map((p) => ({ id: p, label: "every channel matching", group: "patterns" })));
   shown.forEach((i) => { if (!groups.has(i.group)) groups.set(i.group, []); groups.get(i.group)!.push(i); });
   const toggle = (id: string) => onChange(selected.includes(id) ? selected.filter((x) => x !== id) : [...selected, id]);
   return (
@@ -110,7 +113,7 @@ function MultiPick({ items, selected, onChange }: {
           </div>
         ))}
       </div>
-      <div className="dim small">{selected.length} selected. Rows show in the order you pick them.</div>
+      <div className="dim small">{selected.length} selected. Rows show in the order you pick them. Type a pattern such as <code>rtd.*</code> to bind a whole group.</div>
     </div>
   );
 }

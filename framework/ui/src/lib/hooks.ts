@@ -1,12 +1,49 @@
 import { createContext, useCallback, useContext, useEffect, useState, useSyncExternalStore } from "react";
 import type { ChanSnap, Station, Topic } from "./store";
-import type { ChannelInfo, CommandInfo, DeviceInfo } from "./types";
+import { ls } from "./ls";
+import type { ChannelInfo, CommandInfo, DeviceInfo, WidgetItem } from "./types";
 
 export const StationCtx = createContext<Station>(null!);
 export const EditCtx = createContext(false);
 
 export const useStation = () => useContext(StationCtx);
 export const useEditing = () => useContext(EditCtx);
+
+/**
+ * View state a widget keeps across page reloads, per browser: which series are hidden,
+ * which section is open, and so on. Keyed by layout and widget, so two charts in one
+ * layout do not share it. Not synced to other stations and not part of the saved layout.
+ */
+export function useViewState<T>(item: WidgetItem, key: string, initial: T): [T, (v: T | ((prev: T) => T)) => void] {
+  const st = useStation();
+  const k = `vp.view.${st.layoutName}.${item.i}.${key}`;
+  const [v, setV] = useState<T>(() => {
+    const s = ls.get(k);
+    if (s === null) return initial;
+    try { return JSON.parse(s) as T; } catch { return initial; }
+  });
+  const set = useCallback((nv: T | ((prev: T) => T)) => setV((prev) => {
+    const next = typeof nv === "function" ? (nv as (p: T) => T)(prev) : nv;
+    ls.set(k, JSON.stringify(next));
+    return next;
+  }), [k]);
+  return [v, set];
+}
+
+/**
+ * The channels a widget is bound to, with wildcards expanded: ``rtd.*`` means every
+ * channel whose name starts with ``rtd.``. Callers subscribe to the catalog so the
+ * list follows the engine.
+ */
+export function expandBinds(st: Station, binds: string[] | undefined): string[] {
+  const out: string[] = [];
+  for (const b of binds ?? []) {
+    if (!b.includes("*")) { out.push(b); continue; }
+    const re = new RegExp("^" + b.split("*").map((p) => p.replace(/[.+?^${}()|[\]\\]/g, "\\$&")).join(".*") + "$");
+    for (const name of [...st.channels.keys()].sort()) if (re.test(name) && !out.includes(name)) out.push(name);
+  }
+  return out;
+}
 
 /** Re-render when a topic changes (connection, control, alerts, ...). */
 export function useTopic(topic: Topic) {
